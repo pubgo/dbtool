@@ -1,0 +1,10 @@
+db:
+  default:
+    table_prefix: "test_"
+    driver: "postgres"
+    driver_config:
+      dsn: "host=localhost dbname=postgres port=5432 user=postgres password=postgres sslmode=disable"
+
+logger:
+  level: debug
+  as_json: false
