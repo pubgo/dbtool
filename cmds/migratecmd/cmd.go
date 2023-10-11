@@ -1,7 +1,9 @@
 package migratecmd
 
 import (
+	"fmt"
 	"gitlab.asants.com/bas/migrate/pkg/migrates"
+	"gitlab.asants.com/bas/migrate/pkg/utils"
 	"path/filepath"
 	"time"
 
@@ -59,6 +61,11 @@ func New(di *dix.Dix) *cli.Command {
 			}
 
 			p = dix.Inject(di, new(params))
+
+			if p.Db[db] == nil {
+				log.Error().Any("db_keys", utils.MapKeys(p.Db)).Str("cur_key", db).Msg("db name not found")
+				return fmt.Errorf("db name not found, name: %s", db)
+			}
 
 			options.TableName = p.Db[db].TablePrefix + migrates.DefaultConfig.TableName
 			return nil
